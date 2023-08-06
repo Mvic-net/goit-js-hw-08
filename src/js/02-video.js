@@ -5,16 +5,10 @@ const player = new Player('vimeo-player');
 
 const onPlay = function (data) {
   localStorage.setItem('TYME-TO-PLAY', JSON.stringify(data.seconds));
-  // console.log(data.seconds);
 };
 
 player.on('timeupdate', throttle(onPlay, 1000));
 
-let startTime = 0;
+let startTime = JSON.parse(localStorage.getItem('TYME-TO-PLAY'));
 
-startTime = JSON.parse(localStorage.getItem('TYME-TO-PLAY'));
-console.log(startTime);
-
-player.setCurrentTime(startTime).then(function () {
-  player.play();
-});
+player.setCurrentTime(startTime || 0);

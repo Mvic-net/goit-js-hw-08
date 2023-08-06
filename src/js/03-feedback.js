@@ -11,6 +11,8 @@ const refs = {
 refs.getForm.addEventListener('input', throttle(onInputChange, 500));
 refs.getForm.addEventListener('submit', onSubmitForm);
 
+getFormData();
+
 function onInputChange(evt) {
   localStorage.setItem(
     'KEY',
@@ -20,9 +22,22 @@ function onInputChange(evt) {
 
 function onSubmitForm(evt) {
   evt.preventDefault();
-  const formkData = JSON.parse(localStorage.getItem('KEY'));
-  console.log(formkData);
+  const formData = JSON.parse(localStorage.getItem('KEY'));
 
-  localStorage.removeItem('KEY');
-  refs.getForm.reset();
+  if (refs.getEmail.value === '' || refs.getMess.value === '') {
+    alert('Будь ласка, заповніть всі поля');
+  } else {
+    console.log(formData);
+
+    localStorage.removeItem('KEY');
+    refs.getForm.reset();
+  }
+}
+
+function getFormData() {
+  const formData = JSON.parse(localStorage.getItem('KEY'));
+  if (formData) {
+    refs.getEmail.value = formData.email;
+    refs.getMess.value = formData.mess;
+  }
 }
